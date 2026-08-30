@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             PublisherSeeder::class,
             RackSeeder::class,
             UserSeeder::class,
+            SystemSettingSeeder::class,
         ]);
     }
 }
