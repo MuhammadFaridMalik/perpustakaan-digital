@@ -17,16 +17,15 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::middleware('role:admin')->group(function () {
+    // Khusus Super Admin — manajemen akun Admin & audit log & pengaturan sistem
+    Route::middleware('role:super_admin')->group(function () {
         Route::resource('admins', AdminManagementController::class)
             ->only(['index', 'create', 'store', 'edit', 'update']);
         Route::patch('admins/{admin}/toggle-active', [AdminManagementController::class, 'toggleActive'])
             ->name('admins.toggle-active');
 
         Route::get('audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
-    });
 
-    Route::middleware('role:super_admin')->group(function () {
         Route::get('settings', [SystemSettingController::class, 'index'])->name('settings.index');
         Route::put('settings', [SystemSettingController::class, 'update'])->name('settings.update');
     });

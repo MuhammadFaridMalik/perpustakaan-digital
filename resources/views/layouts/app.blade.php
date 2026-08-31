@@ -17,21 +17,21 @@
                 <p class="text-sm text-muted">Perpustakaan Sekolah</p>
                 <p class="font-semibold text-primary">Panel Admin</p>
             </div>
-            <nav class="flex-1 px-3 py-4 space-y-1">
+                <nav class="flex-1 px-3 py-4 space-y-1">
                 @php $user = auth()->user(); @endphp
                 <a href="{{ route('dashboard') }}"
                    class="block px-3 py-2 rounded text-sm {{ request()->routeIs('dashboard') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
                     Dashboard
                 </a>
-                <a href="{{ route('admins.index') }}"
-                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('admins.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
-                    Manajemen Admin
-                </a>
-                <a href="{{ route('audit-logs.index') }}"
-                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('audit-logs.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
-                    Audit Log
-                </a>
                 @if ($user->role === 'super_admin')
+                    <a href="{{ route('admins.index') }}"
+                       class="block px-3 py-2 rounded text-sm {{ request()->routeIs('admins.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                        Manajemen Admin
+                    </a>
+                    <a href="{{ route('audit-logs.index') }}"
+                       class="block px-3 py-2 rounded text-sm {{ request()->routeIs('audit-logs.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                        Audit Log
+                    </a>
                     <a href="{{ route('settings.index') }}"
                        class="block px-3 py-2 rounded text-sm {{ request()->routeIs('settings.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
                         Pengaturan Sistem
@@ -60,9 +60,9 @@
                 </div>
                 <nav class="flex-1 px-3 py-4 space-y-1">
                     <a href="{{ route('dashboard') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Dashboard</a>
-                    <a href="{{ route('admins.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Manajemen Admin</a>
-                    <a href="{{ route('audit-logs.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Audit Log</a>
                     @if (auth()->user()->role === 'super_admin')
+                        <a href="{{ route('admins.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Manajemen Admin</a>
+                        <a href="{{ route('audit-logs.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Audit Log</a>
                         <a href="{{ route('settings.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Pengaturan Sistem</a>
                     @endif
                 </nav>
