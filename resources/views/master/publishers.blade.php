@@ -4,7 +4,7 @@
 @section('content')
     <div x-data="{ showAdd: false, editId: null }">
         <div class="flex items-center justify-between mb-5">
-            <p class="text-sm text-muted">Penerbit buku dipakai untuk klasifikasi & filter pencarian.</p>
+            <p class="text-sm text-muted">Penerbit buku dipakai untuk klasifikasi & filter pencarian. Nama yang sama diperbolehkan (misalnya kebetulan ada dua penerbit berbeda dengan nama mirip).</p>
             <button @click="showAdd = true" class="bg-primary hover:bg-primary-hover text-white text-sm font-medium px-4 py-2 rounded">
                 + Tambah Penerbit
             </button>
