@@ -8,6 +8,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookCopyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MemberController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\RackController;
 use App\Http\Controllers\SystemSettingController;
@@ -49,6 +50,12 @@ Route::middleware('auth')->group(function () {
         Route::post('master/racks', [RackController::class, 'store'])->name('racks.store');
         Route::put('master/racks/{rack}', [RackController::class, 'update'])->name('racks.update');
         Route::delete('master/racks/{rack}', [RackController::class, 'destroy'])->name('racks.destroy');
+
+        Route::get('members', [MemberController::class, 'index'])->name('members.index');
+        Route::get('members/{member}', [MemberController::class, 'show'])->name('members.show');
+        Route::get('members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
+        Route::put('members/{member}', [MemberController::class, 'update'])->name('members.update');
+        Route::patch('members/{member}/toggle-active', [MemberController::class, 'toggleActive'])->name('members.toggle-active');
     });
 
     // Khusus Super Admin
