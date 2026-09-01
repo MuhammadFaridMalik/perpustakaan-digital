@@ -20,10 +20,10 @@
                 @endif
             </div>
 
-            <div class="flex-1">
-                <div class="flex items-start justify-between gap-4 mb-1">
-                    <h2 class="text-xl font-semibold">{{ $book->title }}</h2>
-                    <div class="flex gap-3 shrink-0">
+            <div class="flex-1 min-w-0">
+                <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-1">
+                    <h2 class="text-xl font-semibold break-words">{{ $book->title }}</h2>
+                    <div class="flex gap-4 shrink-0">
                         <a href="{{ route('books.edit', $book) }}" class="text-sm text-primary hover:underline">Ubah</a>
                         <form method="POST" action="{{ route('books.destroy', $book) }}" onsubmit="return confirm('Hapus buku ini?')">
                             @csrf
@@ -53,25 +53,26 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 mb-8">
-            <div class="border border-border rounded p-4">
-                <p class="text-xs text-muted">Total Eksemplar</p>
+        <!-- Ringkasan stok: strip scroll horizontal di mobile, grid rapi di desktop -->
+        <div class="flex sm:grid sm:grid-cols-5 gap-3 mb-8 overflow-x-auto sm:overflow-visible -mx-4 px-4 sm:mx-0 sm:px-0">
+            <div class="border border-border rounded p-4 min-w-[128px] sm:min-w-0 shrink-0">
+                <p class="text-xs text-muted whitespace-nowrap">Total Eksemplar</p>
                 <p class="text-xl font-semibold mt-1">{{ $stock['total'] }}</p>
             </div>
-            <div class="border border-border rounded p-4">
-                <p class="text-xs text-muted">Tersedia</p>
+            <div class="border border-border rounded p-4 min-w-[128px] sm:min-w-0 shrink-0">
+                <p class="text-xs text-muted whitespace-nowrap">Tersedia</p>
                 <p class="text-xl font-semibold mt-1 text-primary">{{ $stock['tersedia'] }}</p>
             </div>
-            <div class="border border-border rounded p-4">
-                <p class="text-xs text-muted">Dipinjam</p>
+            <div class="border border-border rounded p-4 min-w-[128px] sm:min-w-0 shrink-0">
+                <p class="text-xs text-muted whitespace-nowrap">Dipinjam</p>
                 <p class="text-xl font-semibold mt-1">{{ $stock['dipinjam'] }}</p>
             </div>
-            <div class="border border-border rounded p-4">
-                <p class="text-xs text-muted">Dipesan</p>
+            <div class="border border-border rounded p-4 min-w-[128px] sm:min-w-0 shrink-0">
+                <p class="text-xs text-muted whitespace-nowrap">Dipesan</p>
                 <p class="text-xl font-semibold mt-1">{{ $stock['dipesan'] }}</p>
             </div>
-            <div class="border border-border rounded p-4">
-                <p class="text-xs text-muted">Rusak/Hilang</p>
+            <div class="border border-border rounded p-4 min-w-[128px] sm:min-w-0 shrink-0">
+                <p class="text-xs text-muted whitespace-nowrap">Rusak/Hilang</p>
                 <p class="text-xl font-semibold mt-1 text-danger">{{ $stock['rusak'] + $stock['hilang'] }}</p>
             </div>
         </div>
@@ -86,7 +87,54 @@
                 Belum ada eksemplar fisik untuk buku ini.
             </div>
         @else
-            <div class="border border-border rounded overflow-hidden overflow-x-auto">
+            @php
+                $statusColorMap = [
+                    'tersedia' => 'text-primary',
+                    'dipinjam' => 'text-accent',
+                    'dipesan' => 'text-accent',
+                ];
+            @endphp
+
+            <!-- Tampilan kartu — mobile -->
+            <div class="grid gap-3 lg:hidden">
+                @foreach ($book->copies as $copy)
+                    <div class="border border-border rounded p-4">
+                        <div class="flex items-start justify-between gap-3 mb-2">
+                            <p class="font-mono text-sm">{{ $copy->inventory_code }}</p>
+                            <span class="text-xs font-medium {{ $statusColorMap[$copy->status] ?? 'text-danger' }} capitalize whitespace-nowrap">
+                                {{ $copy->status }}
+                            </span>
+                        </div>
+                        @if ($copy->condition_note)
+                            <p class="text-xs text-muted mb-3">{{ $copy->condition_note }}</p>
+                        @endif
+                        <div class="flex items-center gap-4">
+                            @if (in_array($copy->status, ['tersedia', 'rusak', 'hilang']))
+                                <form method="POST" action="{{ route('book-copies.update-status', $copy) }}">
+                                    @csrf
+                                    @method('PATCH')
+                                    <select name="status" onchange="this.form.submit()" class="text-xs border border-border rounded px-2 py-1">
+                                        <option value="tersedia" @selected($copy->status === 'tersedia')>Tersedia</option>
+                                        <option value="rusak" @selected($copy->status === 'rusak')>Rusak</option>
+                                        <option value="hilang" @selected($copy->status === 'hilang')>Hilang</option>
+                                    </select>
+                                </form>
+                            @endif
+                            @if ($copy->status === 'tersedia')
+                                <form method="POST" action="{{ route('book-copies.destroy', $copy) }}"
+                                      onsubmit="return confirm('Hapus eksemplar ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="text-xs text-danger hover:underline">Hapus</button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Tampilan tabel — desktop -->
+            <div class="hidden lg:block border border-border rounded overflow-hidden">
                 <table class="w-full text-sm">
                     <thead class="bg-bg border-b border-border text-left text-muted">
                         <tr>
@@ -101,15 +149,7 @@
                             <tr>
                                 <td class="px-4 py-3 font-mono">{{ $copy->inventory_code }}</td>
                                 <td class="px-4 py-3">
-                                    @php
-                                        $statusColor = match($copy->status) {
-                                            'tersedia' => 'text-primary',
-                                            'dipinjam' => 'text-accent',
-                                            'dipesan' => 'text-accent',
-                                            default => 'text-danger',
-                                        };
-                                    @endphp
-                                    <span class="text-xs font-medium {{ $statusColor }} capitalize">{{ $copy->status }}</span>
+                                    <span class="text-xs font-medium {{ $statusColorMap[$copy->status] ?? 'text-danger' }} capitalize">{{ $copy->status }}</span>
                                 </td>
                                 <td class="px-4 py-3 text-muted">{{ $copy->condition_note ?? '—' }}</td>
                                 <td class="px-4 py-3 text-right space-x-3">
