@@ -44,6 +44,14 @@
                    class="block px-3 py-2 rounded text-sm {{ request()->routeIs('members.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
                     Anggota
                 </a>
+                <a href="{{ route('bookings.index') }}"
+                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('bookings.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                    Booking Masuk
+                </a>
+                <a href="{{ route('borrowings.index') }}"
+                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('borrowings.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                    Peminjaman
+                </a>
                 <p class="px-3 pt-3 pb-1 text-xs font-medium text-muted uppercase">Data Master</p>
                 <a href="{{ route('categories.index') }}"
                    class="block px-3 py-2 rounded text-sm {{ request()->routeIs('categories.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
@@ -91,6 +99,8 @@
                         <a href="{{ route('settings.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Pengaturan Sistem</a>
                         <a href="{{ route('books.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Kelola Buku</a>
                         <a href="{{ route('members.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Anggota</a>
+                        <a href="{{ route('bookings.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Booking Masuk</a>
+                        <a href="{{ route('borrowings.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Peminjaman</a>
                         <p class="px-3 pt-3 pb-1 text-xs font-medium text-muted uppercase">Data Master</p>
                         <a href="{{ route('categories.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Kategori</a>
                         <a href="{{ route('authors.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Pengarang</a>

@@ -37,4 +37,25 @@ class BorrowingItem extends Model
     {
         return $this->hasOne(Fine::class);
     }
+
+    public function getIsOverdueAttribute(): bool
+    {
+        return $this->status === 'dipinjam'
+            && now()->toDateString() > $this->borrowing->due_date->toDateString();
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return $this->is_overdue ? 'Telat' : ucfirst($this->status);
+    }
+
+    public function getStatusColorAttribute(): string
+    {
+        return match (true) {
+            $this->status === 'dikembalikan' => 'text-primary',
+            $this->status === 'telat' => 'text-danger',
+            $this->is_overdue => 'text-danger',
+            default => 'text-accent',
+        };
+    }
 }

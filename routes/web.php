@@ -6,6 +6,8 @@ use App\Http\Controllers\AuditLogController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BookCopyController;
+use App\Http\Controllers\BookingManagementController;
+use App\Http\Controllers\BorrowingController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MemberController;
@@ -56,6 +58,14 @@ Route::middleware('auth')->group(function () {
         Route::get('members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
         Route::put('members/{member}', [MemberController::class, 'update'])->name('members.update');
         Route::patch('members/{member}/toggle-active', [MemberController::class, 'toggleActive'])->name('members.toggle-active');
+        Route::get('borrowings', [BorrowingController::class, 'index'])->name('borrowings.index');
+        Route::get('borrowings/create', [BorrowingController::class, 'create'])->name('borrowings.create');
+        Route::post('borrowings', [BorrowingController::class, 'store'])->name('borrowings.store');
+        Route::patch('borrowing-items/{item}/return', [BorrowingController::class, 'returnItem'])->name('borrowing-items.return');
+
+        Route::get('bookings', [BookingManagementController::class, 'index'])->name('bookings.index');
+        Route::patch('bookings/{booking}/process', [BookingManagementController::class, 'process'])->name('bookings.process');
+        Route::patch('bookings/{booking}/reject', [BookingManagementController::class, 'reject'])->name('bookings.reject');
     });
 
     // Khusus Super Admin

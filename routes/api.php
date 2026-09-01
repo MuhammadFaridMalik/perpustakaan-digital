@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\BorrowingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/ping', function () {
@@ -23,6 +25,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('role:siswa')->group(function () {
         Route::get('/profile', [ProfileController::class, 'show']);
         Route::put('/profile', [ProfileController::class, 'update']);
+
+        Route::get('/bookings', [BookingController::class, 'index']);
+        Route::post('/bookings', [BookingController::class, 'store']);
+        Route::delete('/bookings/{booking}', [BookingController::class, 'destroy']);
+
+        Route::get('/borrowings', [BorrowingController::class, 'index']);
     });
 
     // Contoh route khusus admin (admin + super_admin lolos)
