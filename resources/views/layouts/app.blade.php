@@ -36,6 +36,28 @@
                        class="block px-3 py-2 rounded text-sm {{ request()->routeIs('settings.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
                         Pengaturan Sistem
                     </a>
+                                    <a href="{{ route('books.index') }}"
+                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('books.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                    Kelola Buku
+                </a>
+
+                <p class="px-3 pt-3 pb-1 text-xs font-medium text-muted uppercase">Data Master</p>
+                <a href="{{ route('categories.index') }}"
+                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('categories.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                    Kategori
+                </a>
+                <a href="{{ route('authors.index') }}"
+                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('authors.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                    Pengarang
+                </a>
+                <a href="{{ route('publishers.index') }}"
+                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('publishers.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                    Penerbit
+                </a>
+                <a href="{{ route('racks.index') }}"
+                   class="block px-3 py-2 rounded text-sm {{ request()->routeIs('racks.*') ? 'bg-primary text-white' : 'text-text hover:bg-bg' }}">
+                    Rak
+                </a>
                 @endif
             </nav>
             <div class="px-3 py-4 border-t border-border">
@@ -64,6 +86,12 @@
                         <a href="{{ route('admins.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Manajemen Admin</a>
                         <a href="{{ route('audit-logs.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Audit Log</a>
                         <a href="{{ route('settings.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Pengaturan Sistem</a>
+                        <a href="{{ route('books.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Kelola Buku</a>
+                        <p class="px-3 pt-3 pb-1 text-xs font-medium text-muted uppercase">Data Master</p>
+                        <a href="{{ route('categories.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Kategori</a>
+                        <a href="{{ route('authors.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Pengarang</a>
+                        <a href="{{ route('publishers.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Penerbit</a>
+                        <a href="{{ route('racks.index') }}" class="block px-3 py-2 rounded text-sm hover:bg-bg">Rak</a>
                     @endif
                 </nav>
             </aside>
